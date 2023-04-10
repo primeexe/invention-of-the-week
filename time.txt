@@ -1,0 +1,24 @@
+onst reminderTime = new Date();
+reminderTime.setHours(15);
+reminderTime.setMinutes(24);
+reminderTime.setSeconds(0);
+
+// Find the channel to send the reminder to
+const channel = client.channels.fetch('1092889845040435362')
+
+if (!channel) {
+    console.error('Could not find channel!');
+    return;
+}
+
+// Schedule the first reminder
+const reminderInterval = setInterval(() => {
+    const currentTime = new Date();
+    if (currentTime.getTime() >= reminderTime.getTime()) {
+        clearInterval(reminderInterval);
+        message.channel.send('Don\'t forget to say hello!');
+        // Schedule the next reminder for the next day
+        reminderTime.setDate(reminderTime.getDate() + 1);
+        reminderInterval = setInterval(reminderFunc, 86400000);
+    }
+}, 60000);;

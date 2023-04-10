@@ -1,0 +1,274 @@
+require("dotenv").config();
+
+const { Client, WebhookClient } = require('discord.js');
+const Discord = require('discord.js');
+const embed = new Discord.MessageEmbed
+const client = new Client({
+partials: ['MESSAGE', 'REACTION']
+});
+
+const webhookClient = new WebhookClient(
+process.env.WEBHOOK_ID,
+process.env.WEBHOOK_TOKEN,
+);
+const PREFIX = "-";
+const TWITCH = "[https://www.twitch.tv/qrlbanan](https://www.twitch.tv/qrlbanan)";
+const TT = "[https://www.tiktok.com/@f1fans_forever?lang=en](https://www.tiktok.com/@f1fans_forever?lang=en)";
+const notright = "[https://tenor.com/view/masi-f1verstappen-hamilton-mercedes-red-bull-horner-fia-toto-wolff-racing-no-michael-gif-24167345](https://tenor.com/view/masi-f1verstappen-hamilton-mercedes-red-bull-horner-fia-toto-wolff-racing-no-michael-gif-24167345)"
+const mods = "Dibroll, F1_frankStar & Curious George"
+
+var currentdate = new Date(); // datetime + time
+var datetime = "" + currentdate.getDate() + "/"
++ (currentdate.getMonth()+1)  + "/"
++ currentdate.getFullYear() + " @ "
++ currentdate.getHours() + ":"
++ currentdate.getMinutes() + ":"
++ currentdate.getSeconds();
+var time = "" + currentdate.getHours() + ":"
++ currentdate.getMinutes() + ":"
++ currentdate.getSeconds();
+
+client.on('ready', () => { //Ready message
+console.log(`${client.user.tag} has logged in on ${datetime}.`);
+client.user.setActivity('Watching you', {type: 'PLAYING'});
+});
+
+client.on('message', async (message) => { // help commands
+if (message.content.toLowerCase().startsWith('-help')) { //embed
+const helpembed = new Discord.MessageEmbed()
+.setColor('#fcd93a')
+.setTitle('Command help')
+.setDescription('List of all commands avaliable for Micheal Masi')
+.setThumbnail("[https://cdn.discordapp.com/attachments/915002868451381291/939681957263077436/S.gif](https://cdn.discordapp.com/attachments/915002868451381291/939681957263077436/S.gif)")
+.addFields(
+{name: '-rules', value: 'Lists the server rules'},
+{name: '-socials', value: "Lists all of Banans social media's"},
+{name: '-setup', value: 'Lists everything relevant within Banans setup'},
+{name: '-clips', value: 'Takes you to Banans Twitch clips page'},
+{name: '-currenttime', value: 'Replies the current time in GMT'},
+{name: '-botuptime', value: 'States how long the bot has been active for (broken)'},
+{name: '-ramu', value: 'States how much RAM Micheal Masi is currently using'},
+{name: '-serverinfo', value: 'Lists information about the server'},
+{name: '-membercount', value: 'States the amount of members within the server (inlcuding bots)'},
+{name: '-fun', value: 'Lists the more fun commands'},
+{name: '-donate', value: 'Takes you to Banans donation page'},
+{name: '-suggestion (your suggestion here)', value: 'Logs your suggestion for the Programmer to take into account'},
+)
+
+message.channel.send({embed: helpembed});
+} else if (message.content.toLowerCase().startsWith(`-fun`)) { //embed
+const funhelpembed = new Discord.MessageEmbed()
+.setColor('#fcd93a')
+.setTitle('Fun command help')
+.setDescription('List of all fun commands for Micheal Masi')
+.setThumbnail("[https://cdn.discordapp.com/attachments/915002868451381291/939666333375819776/S_1.png](https://cdn.discordapp.com/attachments/915002868451381291/939666333375819776/S_1.png)")
+.addFields(
+{name: '-penalty (@user)', value: 'Gives user a 5 second penalty (does nothing)'},
+{name: '-blackflag (@user)', value: 'Blackflags the user (does nothing)'},
+{name: '-safetycar', value: 'Deploys the safety car'},
+{name: '-coinflip', value: 'Flips a coin'},
+{name: '-drivingskill', value: 'Shows you your driving skill'},
+{name: '-drivingskill (@user)', value: 'Shows you your driving skill'},
+)
+
+message.channel.send({embed: funhelpembed});
+
+} else if (message.content.toLowerCase().startsWith(`-rules`)) { //embed
+const rulesembed = new Discord.MessageEmbed()
+.setColor('#fcd93a')
+.setTitle('Rules')
+.setDescription('The following rules apply to everyone and everything sent within the server including messages, links, gifs, memes, images, etc. The rules also apply in every channel and voice channel. You are responsible for everything you send and do.')
+.setThumbnail("[https://cdn.discordapp.com/attachments/915002868451381291/941807142309068811/S_6.gif](https://cdn.discordapp.com/attachments/915002868451381291/941807142309068811/S_6.gif)")
+.addFields(
+{name: 'The following will be met with an instant ban', value: '- Alt-accounts for the purpose of evading infractions.\n- The use of slurs and other hate speech\n- NSFW content.\n- Server-Raiding.\n- Attempting to doxx other users\n- Scam or phishing links.'},
+{name: 'Rule 1 - No hate speech or trolling.', value: 'Harassment, hate speech, homophobia, transphobia, sexism and racism are strictly prohibited, including the use of racial slurs. We have a zero-tolerance policy and you will get permanent banned without warning.'},
+{name: 'Rule 2 - No NSFW or similar content.', value: `Never post anything that is NSFW. This also includes discussions from these topics. If you need to ask if it is NSFW then don't post it.`},
+{name: 'Rule 3 - No spamming.', value: `This includes spamming emojis, bot commands, words, people's tags and excessive pinging for people who are either offline or not in the chat.`},
+{name: 'Rule 4 - Spoilers.', value: `Please be mindful when talking about new movies, shows, books and more. We don't have a spoilers channel but if you want to talk about spoilers please use the spoilers tag. You can freely talk about spoilers 1 month after its release.`},
+{name: 'Rule 5 - Listen to the moderators.', value: `Always listen to the moderators and do what they say. If they tell you to do something, do it. If you don't agree with a moderators decision or what they have been doing, feel free to DM the owner.`},
+{name: 'If you break the rules a mod will follow these steps.', value: `- Issue a warning\\n- Issue a second warning\\n- Mute your account\\n- Kick your account from the server\\n- Ban your account from the server`},
+)
+message.channel.send({embed: rulesembed});
+}
+});
+
+client.on('message', async (message) => { //Generic commmands
+if (message.content === '-setup') {
+message.channel.send('Banans setup currently consists of\n\nWheelbase: Thrustmaster tx servo base\nWheel: Ferrari f1 wheel add on\nChair: Playseat challenge')
+} else if (message.content === '-ontime') {
+message.reply(`The bot was enabled at: ${time}.`)
+} else if (message.content === '-botuptime') { //fix this
+const ToTalSeconds = (client.uptime / 1000);
+const Days = Math.floor(ToTalSeconds / 86400);
+const Hours = Math.floor(ToTalSeconds / 3600);
+const Minutes = Math.floor(ToTalSeconds / 60);
+const Seconds = Math.floor(ToTalSeconds % 60);
+const Uptime = `${Days} Days, ${Hours} Hours, ${Minutes} Minutes & ${Seconds} Seconds`;
+message.channel.send(`${client.user.tag} has been online for ${Days} Days, ${Hours} Hours, ${Minutes} Minutes & ${Seconds} Seconds`);
+
+} else if (message.content === '-ramu') {
+const MemoryUsage = process.memoryUsage().heapUsed / 1024 / 1024;
+const RamUsed = Math.round(process.cpuUsage().system) / 1024;
+const RamUsage = Math.trunc(RamUsed);
+message.channel.send(`${client.user.tag} is using ${RamUsage}MB of RAM.`)
+} else if (message.content === 'woeah') {
+message.reply('woah**')
+} else if (message.content === '-currenttime') {
+if (message.author.bot) return;
+message.reply(`The date is ${currentdate}`)
+} else if (message.content === 'do something') {
+messsage.reply('do something')
+} else if (message.content.toLowerCase().startsWith('-serverinfo')) {
+message.channel.send(`there are currently ${message.guild.memberCount} members in this server\\nThe server was created on Mon June 21 2021 at 20:52:08 (British time)\\nThe owner is Banan and the current Mods are ${mods}`)
+} else if (message.content === '-openlobby') {
+message.channel.send('@everyone, lobbies are now open (XBOX only), To join, first ask Banan on his twitch:[https://www.twitch.tv/qrlbanan\\nThen](https://www.twitch.tv/qrlbanan%5C%5CnThen) add him as a friend/message him on xbox, His user is: QRL Banan \nIf he is OK with you joining, he will then send you an invite.\nEnjoy')
+} else if (message.content.toLowerCase().startsWith('-league')) {
+message.channel.send(`@everyone, Banan is about to participate in a League race. He will be streaming it on Twitch: ${TWITCH} \\nCome along and support him!`)
+} else if (message.content === '-ttlive') {
+message.channel.send(`@everyone QRLBanan is live right now on TikTok: \\n${TT}`)
+} else if (message.content.toLowerCase().includes(`that was so not right`)) {
+if(message.author.bot) return;
+message.reply('"no Mikey, no no Mikey, that was so not right!"\nhttps://www.youtube.com/watch?v=wTvCmoSPjzk')
+} else if (message.content.toLowerCase().startsWith('-penalty')) {
+
+if (!message.mentions.members.size) return false;
+
+message.channel.send(
+`${message.mentions.members.first()} Has been given a 5 second penalty!`)
+} else if (message.content.toLowerCase().includes (`smash door`)) {
+if(message.author.bot) return;
+message.reply(`fok smash door \\nhttps://www.youtube.com/watch?v=XVNjL8qNl_0`)
+} else if (message.content.toLowerCase().startsWith('-blackflag')) {
+
+if (!message.mentions.members.size) return false;
+
+message.channel.send(
+`${message.mentions.members.first()} Has been black flagged!`)
+
+} else if (message.content.toLowerCase().startsWith(`-safetycar`)) {
+message.channel.send(`deploying the safety car!`, { files: ["[https://i.redd.it/1uniykzhoy161.gif](https://i.redd.it/1uniykzhoy161.gif)"] });
+} else if (message.content === `-test`) {
+console.log(`test succsessful`)
+} else if (message.content.toLowerCase().startsWith(`-programmerinfo`)) {
+message.reply(`the programmer of ${client.user.tag} is a 15 year old "programmer" who wanted to choose computer sceince as a subject for school, but wasnt able to as not enough people picked it, he is still in school and most of the time whenever there is any new commands it was written while in school, he is very new to programming and has never properly learmt a language, he is hoping that he can learn Javascript over time, he also loves photography`)
+} else if (message.content.toLowerCase().startsWith(`-clips`)){
+message.channel.send(`https://www.twitch.tv/qrlbanan/clips?filter=clips&range=7d`)
+} else if (message.content.toLowerCase().startsWith('-drivingskill ')) {
+
+if (!message.mentions.members.size) return false;
+
+const random = Math.floor(Math.random() * 101);
+
+message.channel.send(`${message.mentions.members.first()} your skill: ${random}%`);
+
+} else if (message.content.toLowerCase().startsWith('-drivingskill')) {
+const random = Math.floor(Math.random() * 101);
+
+message.reply(`your skill: ${random}%`);
+
+} else if (message.content.toLowerCase().startsWith('-social')) {
+const socialsembed = new Discord.MessageEmbed()
+.setColor('#fcd93a')
+.setTitle('Socials')
+.setDescription('Links to Banans socials')
+.setThumbnail("[https://cdn.discordapp.com/attachments/915002868451381291/939682395181948950/S_1.gif](https://cdn.discordapp.com/attachments/915002868451381291/939682395181948950/S_1.gif)")
+.addFields(
+{name: 'Twitch', value: '[https://www.twitch.tv/qrlbanan](https://www.twitch.tv/qrlbanan)'},
+{name: 'TikTok', value: '[https://www.tiktok.com/@f1fan_forever?lang=en](https://www.tiktok.com/@f1fan_forever?lang=en)'},
+{name: 'Youtube', value: '[https://www.youtube.com/channel/UCD2D43PlAWuQzmqozYc0xyA](https://www.youtube.com/channel/UCD2D43PlAWuQzmqozYc0xyA)'},
+{name: 'Instagram', value: '[https://www.instagram.com/f1fan_forever/](https://www.instagram.com/f1fan_forever/)'},
+{name: 'Discord', value: '[https://discord.gg/pSjVbzKaV4](https://discord.gg/pSjVbzKaV4)'},
+)
+
+message.channel.send({embed: socialsembed});
+} else if (message.content.toLowerCase().startsWith('-socials')) {
+message.channel.send({embed: socialsembed});
+} else if (message.content.toLowerCase().startsWith('-donate')) {
+const donateembed = new Discord.MessageEmbed()
+.setColor('#fcd93a')
+.setTitle('Donate')
+.setDescription('Donations would be greatly apreciated!')
+.setThumbnail("[https://cdn.discordapp.com/attachments/915002868451381291/939921565187997746/S_2.gif](https://cdn.discordapp.com/attachments/915002868451381291/939921565187997746/S_2.gif)")
+.setURL('[https://streamlabs.com/qrlbanan](https://streamlabs.com/qrlbanan)')
+.addFields(
+{name: 'Donate', value: '[https://streamlabs.com/qrlbanan](https://streamlabs.com/qrlbanan)'},
+)
+
+message.channel.send({embed: donateembed});
+} else if (message.content.toLowerCase().startsWith('-live')) {
+if (message.author.bot) return;
+const liveembed = new Discord.MessageEmbed()
+.setColor('#fcd93a')
+.setTitle('Live')
+.setDescription('Banan is live on Twitch right now right now')
+.setThumbnail("[https://cdn.discordapp.com/attachments/915002868451381291/939934191318085702/Twitch-Emblema.png](https://cdn.discordapp.com/attachments/915002868451381291/939934191318085702/Twitch-Emblema.png)")
+.setURL('[https://www.twitch.tv/qrlbanan](https://www.twitch.tv/qrlbanan)')
+.setImage('[https://cdn.discordapp.com/attachments/915002868451381291/939934949828603914/S_4.gif](https://cdn.discordapp.com/attachments/915002868451381291/939934949828603914/S_4.gif)')
+.setTimestamp()
+.addFields(
+{name: 'Twitch', value: '[https://www.twitch.tv/qrlbanan](https://www.twitch.tv/qrlbanan)'},
+)
+
+message.channel.send(`@everyone`, {embed: liveembed});
+} else if (message.content.toLowerCase().startsWith('-stream')) {
+if (message.author.bot) return;
+const liveembed = new Discord.MessageEmbed()
+.setColor('#fcd93a')
+.setTitle('Live')
+.setDescription('Banan is live on Twitch right now right now')
+.setThumbnail("[https://cdn.discordapp.com/attachments/915002868451381291/939934191318085702/Twitch-Emblema.png](https://cdn.discordapp.com/attachments/915002868451381291/939934191318085702/Twitch-Emblema.png)")
+.setURL('[https://www.twitch.tv/qrlbanan](https://www.twitch.tv/qrlbanan)')
+.setImage('[https://cdn.discordapp.com/attachments/915002868451381291/939934949828603914/S_4.gif](https://cdn.discordapp.com/attachments/915002868451381291/939934949828603914/S_4.gif)')
+.setTimestamp()
+.addFields(
+{name: 'Twitch', value: '[https://www.twitch.tv/qrlbanan](https://www.twitch.tv/qrlbanan)'},
+)
+
+message.channel.send( {embed: liveembed});
+
+} else if (message.content.toLowerCase().startsWith(`-membercount`)) {
+if (message.author.bot) return;
+const memberembed = new Discord.MessageEmbed()
+.setColor('#fcd93a')
+.setTitle('Membercount')
+.setThumbnail("[https://cdn.discordapp.com/attachments/915002868451381291/940758500345262100/S_5.gif](https://cdn.discordapp.com/attachments/915002868451381291/940758500345262100/S_5.gif)")
+.setURL('[https://discord.gg/pSjVbzKaV4](https://discord.gg/pSjVbzKaV4)')
+.setTimestamp()
+.addFields(
+{name: 'Current Membercount', value: `There are currently ${message.guild.memberCount} in QRL Banan`},
+)
+
+message.channel.send( {embed: memberembed});
+
+} else if (message.content.toLowerCase().startsWith(`-suggestion`)) {
+if(message.author.bot) return;
+console.log(message.content)
+client.channels.cache.get(`941022746098430032`).send(`${message.author.tag}` +  message.content)
+message.reply(`Suggestion Logged!`)
+} else if (message.content.toLowerCase().startsWith('-coinflip')) {
+const side = 'Coin landed on its side';
+const heads = 'Heads';
+const tails = 'Tails';
+const random = Math.floor(Math.random() * 101);
+
+if(random == 50){
+message.channel.send(side);
+}
+
+else if(random < 50){
+message.channel.send(heads);
+}
+else {
+message.channel.send(tails);
+}
+
+} else if (message.content === `-banantime`) {
+if(message.author.bot) return;
+var d = new Date,
+dformat = [d.getHours(),
+d.getMinutes(),
+d.getSeconds()].join(':');
+message.channel.send(`The time for Banan is currently \\n ${d}`)
+}
+});
+client.login(process.env.DISCORDJS_BOT_TOKEN);

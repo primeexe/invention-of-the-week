@@ -1,0 +1,9 @@
+
+// for full event list see https://discord.js.org/#/docs/discord.js/stable/general/welcome
+
+module.exports = {
+    name: '',
+    run(client) {
+
+    }
+}
